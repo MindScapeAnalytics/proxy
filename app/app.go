@@ -1,0 +1,61 @@
+package app
+
+import (
+	"context"
+
+	"github.com/MindScapeAnalytics/proxy/config"
+	accountIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
+	accountRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
+	"github.com/MindScapeAnalytics/proxy/internal/middleware"
+	"github.com/MindScapeAnalytics/proxy/pkg/transport/http"
+	"github.com/gofiber/fiber/v2"
+)
+
+type App struct {
+	Fiber       *fiber.App
+	Config      *config.Config
+	Adapters    *Adapters
+	Interactors *Interactors
+	Controllers *Controllers
+	Drivers     *Drivers
+	Middleware  *Middleware
+}
+
+type Middleware struct {
+	Middleware middleware.MDWManager
+}
+
+type Drivers struct {
+	HTTPClient *http.Client
+}
+
+// Adapters ...
+type Adapters struct {
+	AccountRepository accountRepo.AccountRepository
+}
+
+// Interactors ...
+type Interactors struct {
+	AccountInteractor accountIntr.AccountInteractor
+}
+
+// Controllers ...
+type Controllers struct {
+	HTTP struct {
+		AccountController accountIntr.AccountController
+	}
+}
+
+func Run(cfg *config.Config, ctx context.Context) error {
+	app, err := newApp(ctx, cfg)
+	if err != nil {
+		return err
+	}
+
+	err = app.Drivers.HTTPClient.Launch()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
