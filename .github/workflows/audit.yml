@@ -16,5 +16,5 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.MANAGER_NODE_PUBLICK_KEY }}
-        script: /srv/backend/authentication_service.sh
+        key: ${{ secrets.KEY }}
+        script: /srv/backend/proxy.sh
