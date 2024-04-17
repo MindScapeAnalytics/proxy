@@ -1,8 +1,16 @@
 version: "3.9"
 
+secrets:
+  PRIVATE_SWARMPIT_SSH:
+    external: true
+
 services:
   nodeapp:
     build:
       context: .
+      args:
+        SSH_PRIVATE_KEY: PRIVATE_SWARMPIT_SSH
     ports:
       - "6000:6000"
+    environment:
+      - PRIVATE_SSH=/run/secrets/PRIVATE_SWARMPIT_SSH
