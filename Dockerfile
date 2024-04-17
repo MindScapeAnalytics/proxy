@@ -10,7 +10,7 @@ ARG USERNAME
 ARG ACCESS_TOKEN
 ENV ACCESS_TOKEN=$ACCESS_TOKEN
 
-RUN git config --global url."https://${ACCESS_TOKEN}:x-oauth-basic@github.com/".insteadOf "https://github.com/"
+RUN git config --global url."https://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:x-oauth-basic@github.com/".insteadOf "https://github.com/"
 
 COPY . .
 # -----------------------------------------
