@@ -9,6 +9,9 @@ ARG SSH_PUBLIC_KEY
 
 RUN git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
+RUN echo "$SSH_PRIVATE_KEY"
+RUN echo "$SSH_PUBLIC_KEY"
+
 RUN mkdir -p /root/.ssh && \
 chmod 0700 /root/.ssh && \
 ssh-keyscan github.com > /root/.ssh/known_hosts
