@@ -18,3 +18,6 @@ services:
     environment:
       - PRIVATE_SSH=/run/secrets/PRIVATE_SWARMPIT_SSH
       - PUBLIC_SSH=/run/secrets/PUBLIC_SWARMPIT_SSH
+      # args:
+      #   USERNAME: ddkritsin
+      #   ACCESS_TOKEN: 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
