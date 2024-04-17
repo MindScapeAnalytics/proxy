@@ -5,6 +5,7 @@ WORKDIR /app
 EXPOSE 600
 
 ARG SSH_PRIVATE_KEY
+ARG SSH_PUBLIC_KEY
 
 RUN git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
@@ -14,6 +15,8 @@ ssh-keyscan github.com > /root/.ssh/known_hosts
 
 RUN echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_ed25519 && \
 chmod 600 /root/.ssh/id_ed25519
+RUN echo "$SSH_PUBLIC_KEY" > /root/.ssh/id_ed25519.pub && \
+chmod 600 /root/.ssh/id_ed25519.pub
 
 
 COPY go.mod go.sum ./
