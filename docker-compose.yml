@@ -1,14 +1,14 @@
 version: "3.9"
 
-secrets:
-  PRIVATE_SWARMPIT_SSH:
-    file: private.txt
-  PUBLIC_SWARMPIT_SSH:
-    file: public.txt
+# secrets:
+#   PRIVATE_SWARMPIT_SSH:
+#     file: private.txt
+#   PUBLIC_SWARMPIT_SSH:
+#     file: public.txt
 
 services:
-  proxy_app:
-    image: proxy:latest
+  proxy:
+    image: 147.45.109.2:5000/proxy
       #args:
       #  USERNAME: ddkritsin
       #  ACCESS_TOKEN: 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
@@ -20,6 +20,6 @@ services:
     deploy:
       placement:
         constraints: [node.hostname==2771971-eg50782.twc1.net]
-    environment:
-      - PRIVATE_SSH=/run/secrets/PRIVATE_SWARMPIT_SSH
-      - PUBLIC_SSH=/run/secrets/PUBLIC_SWARMPIT_SSH
+    # environment:
+    #   - PRIVATE_SSH=/run/secrets/PRIVATE_SWARMPIT_SSH
+    #   - PUBLIC_SSH=/run/secrets/PUBLIC_SWARMPIT_SSH
