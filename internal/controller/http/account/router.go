@@ -6,6 +6,6 @@ import (
 )
 
 func AccountRoutesGroup(mw middleware.MDWManager, accountRout fiber.Router, h AccountController) {
-	accountRout.Post("/account", mw.NonAuthed(), h.Login())
-	accountRout.Post("/account/token", mw.NonAuthed(), h.Registry())
+	accountRout.Post("/", mw.NonAuthed(), h.Login())
+	accountRout.Post("/token", mw.NonAuthed(), h.Registry())
 }
