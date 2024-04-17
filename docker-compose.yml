@@ -2,9 +2,9 @@ version: "3.9"
 
 secrets:
   PRIVATE_SWARMPIT_SSH:
-    external: true
+    file: private.txt
   PUBLIC_SWARMPIT_SSH:
-    external: true
+    file: public.txt
 
 services:
   nodeapp:
