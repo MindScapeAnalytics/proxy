@@ -7,6 +7,8 @@ EXPOSE 600
 ARG SSH_PRIVATE_KEY
 ARG SSH_PUBLIC_KEY
 
+RUN apt-get update && apt-get install -y ca-certificates git-core ssh
+
 RUN git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
 RUN echo "$SSH_PRIVATE_KEY"
