@@ -1,0 +1,20 @@
+name: Audit
+
+on:
+  push:
+    branches: [stage, dev]
+  pull_request:
+    branches: [stage, dev]
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.MANAGER_NODE_PUBLICK_KEY }}
+        script: /srv/backend/authentication_service.sh
