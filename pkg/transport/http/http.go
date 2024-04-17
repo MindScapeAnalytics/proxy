@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/MindScapeAnalytics/proxy/config"
+	"github.com/MindScapeAnalytics/proxy/pkg/logger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
@@ -16,7 +17,7 @@ type Client struct {
 	cfg *config.Config
 }
 
-func NewClientHTTP(cfg *config.Config) (Client, error) {
+func NewClientHTTP(cfg *config.Config, logger logger.Logger) (Client, error) {
 	app := fiber.New()
 	return Client{
 		app: app,

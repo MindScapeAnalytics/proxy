@@ -18,13 +18,17 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 
 	app := &App{}
 
-	httpClient, err := http.NewClientHTTP(cfg)
+	l := logger.NewLogger(cfg)
+	err := l.InitLogger()
+	if err != nil {
+		return nil, err
+	}
+	logger := logger.NewLoggerUC(cfg, l)
+
+	httpClient, err := http.NewClientHTTP(cfg, l)
 	if err != nil {
 		log.Fatalf("%s", err.Error())
 	}
-
-	l := logger.NewLogger(cfg)
-	logger := logger.NewLoggerUC(cfg, l)
 
 	if app.Fiber, err = httpClient.GetApp(); err != nil {
 		return nil, err
