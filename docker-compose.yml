@@ -7,18 +7,19 @@ secrets:
     file: public.txt
 
 services:
-  nodeapp:
-    build:
-      context: .
-      args:
-        USERNAME: ddkritsin
-        ACCESS_TOKEN: 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
+  proxy_app:
+    image: proxy:latest
+      #args:
+      #  USERNAME: ddkritsin
+      #  ACCESS_TOKEN: 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
       # args:
       #   SSH_PRIVATE_KEY: PRIVATE_SSH
       #   SSH_PUBLIC_KEY: PUBLIC_SSH
     ports:
       - "6000:6000"
+    deploy:
+      placement:
+        constraints: [node.hostname==2771971-eg50782.twc1.net]
     environment:
       - PRIVATE_SSH=/run/secrets/PRIVATE_SWARMPIT_SSH
       - PUBLIC_SSH=/run/secrets/PUBLIC_SWARMPIT_SSH
-      
