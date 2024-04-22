@@ -1,6 +1,7 @@
 Server:
   IP: 0.0.0.0
   Port: 6000
+  SecretJWT: da66120516d311315f27334e5d42ab66
   ShowUnknownErrorsInResponse: true
   Instance: dev1_proxy
 AuthenticationService:

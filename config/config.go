@@ -15,6 +15,7 @@ type Server struct {
 	IP                          string `validate:"required"`
 	Port                        string `validate:"required"`
 	ShowUnknownErrorsInResponse bool   `validate:"required"`
+	SecretJWT                   string `validate:"required"`
 	Instance                    string `validate:"required"`
 }
 

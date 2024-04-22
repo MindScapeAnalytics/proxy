@@ -44,7 +44,7 @@ func (controller AccountController) Login() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		return ctx.Status(fiber.StatusAccepted).JSON(token)
+		return ctx.Status(fiber.StatusAccepted).JSON(string(token))
 	}
 }
 

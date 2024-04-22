@@ -18,10 +18,10 @@ func newAuthenticationRepository(ctx context.Context, opts AccountRepOpts) (*aut
 	}, nil
 }
 
-func (repository authenticationServiceRepository) GetToken(ctx context.Context, login, password string) (string, error) {
+func (repository authenticationServiceRepository) GetToken(ctx context.Context, login, password string) ([]byte, error) {
 	token, err := repository.authenticationService.GetToken(ctx, login, password)
 	if err != nil {
-		return "", fmt.Errorf("authenticationServiceRepository.GetToken(): error: %s", err.Error())
+		return nil, fmt.Errorf("authenticationServiceRepository.GetToken(): error: %s", err.Error())
 	}
 	return token, nil
 }

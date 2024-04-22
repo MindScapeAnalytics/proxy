@@ -20,10 +20,10 @@ func NewAccountInteractor(ctx context.Context, opts AccountIntrOpts) (*AccountIn
 	}, nil
 }
 
-func (interactor AccountInteractor) Login(ctx context.Context, account entity.Account) (string, error) {
+func (interactor AccountInteractor) Login(ctx context.Context, account entity.Account) ([]byte, error) {
 	token, err := interactor.accountRepository.GetToken(ctx, account.Login, account.Password)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 	return token, nil
 }

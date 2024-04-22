@@ -7,6 +7,6 @@ import (
 )
 
 type AccountInteractor interface {
-	Login(ctx context.Context, account entity.Account) (string, error)
+	Login(ctx context.Context, account entity.Account) ([]byte, error)
 	Registry(ctx context.Context, account entity.Account) (bool, error)
 }

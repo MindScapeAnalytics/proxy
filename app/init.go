@@ -30,6 +30,11 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 		log.Fatalf("%s", err.Error())
 	}
 
+	authenticationService, err := api.NewAuthenticationService(ctx, cfg.AuthenticationService.IP, cfg.AuthenticationService.Port)
+	if err != nil {
+		log.Fatalf("%s", err.Error())
+	}
+
 	if app.Fiber, err = httpClient.GetApp(); err != nil {
 		return nil, err
 	}
@@ -38,7 +43,7 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 		HTTPClient: &httpClient,
 	}
 
-	err = app.initAdapters(ctx, cfg)
+	err = app.initAdapters(ctx, cfg, authenticationService)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +52,7 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 		return nil, err
 	}
 
-	if err = app.initMiddleware(ctx, cfg, l); err != nil {
+	if err = app.initMiddleware(ctx, cfg, l, authenticationService); err != nil {
 		return nil, err
 	}
 
@@ -59,13 +64,10 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 	return app, nil
 }
 
-func (app *App) initAdapters(ctx context.Context, cfg *config.Config) (err error) {
+func (app *App) initAdapters(ctx context.Context, cfg *config.Config, authenticationService api.AuthenticationService) (err error) {
 
 	adapters := &Adapters{}
-	authenticationService, err := api.NewAuthenticationService(ctx, cfg.AuthenticationService.IP, cfg.AuthenticationService.Port)
-	if err != nil {
-		return err
-	}
+
 	// инициализируем user repository
 	if adapters.AccountRepository, err = accountRepo.NewAccountRepository(ctx, accountRepo.AccountRepOpts{
 		AuthenticationService: authenticationService,
@@ -96,9 +98,9 @@ func (app *App) initInteractors(ctx context.Context) (err error) {
 	return nil
 }
 
-func (app *App) initMiddleware(ctx context.Context, cfg *config.Config, logger logger.Logger) (err error) {
+func (app *App) initMiddleware(ctx context.Context, cfg *config.Config, logger logger.Logger, authenticationService api.AuthenticationService) (err error) {
 	app.Middleware = &Middleware{}
-	app.Middleware.Middleware = middleware.NewMDWManager(cfg, logger)
+	app.Middleware.Middleware = middleware.NewMDWManager(cfg, logger, authenticationService)
 	return nil
 }
 
