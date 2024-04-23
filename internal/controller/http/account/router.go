@@ -7,5 +7,5 @@ import (
 
 func AccountRoutesGroup(mw middleware.MDWManager, accountRout fiber.Router, h AccountController) {
 	accountRout.Post("/token", mw.NonAuthed(), h.Login())
-	accountRout.Post("/", mw.APIMiddleware(), h.Registry())
+	accountRout.Post("/", mw.NonAuthed(), h.Registry())
 }
