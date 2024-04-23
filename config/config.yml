@@ -5,6 +5,6 @@ Server:
   ShowUnknownErrorsInResponse: true
   Instance: dev1_proxy
 AuthenticationService:
-  # IP: 178.253.43.123
-  IP: localhost
+  IP: 178.253.43.123
+  # IP: localhost
   Port: 6001
