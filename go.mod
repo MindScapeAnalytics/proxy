@@ -2,8 +2,10 @@ module github.com/MindScapeAnalytics/proxy
 
 go 1.22.2
 
+replace github.com/MindScapeAnalytics/grpc-api/authentication => /Users/kegazani/Projects/MSAnalytics/grpc-api/authentication
+
 require (
-	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.8
+	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.10
 	github.com/go-playground/validator/v10 v10.19.0
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/rs/zerolog v1.32.0
