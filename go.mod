@@ -5,7 +5,7 @@ go 1.22.2
 // replace github.com/MindScapeAnalytics/grpc-api/authentication => /Users/kegazani/Projects/MSAnalytics/grpc-api/authentication
 
 require (
-	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.11
+	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.12
 	github.com/go-playground/validator/v10 v10.19.0
 	github.com/gofiber/fiber/v2 v2.52.4
 	github.com/rs/zerolog v1.32.0
@@ -36,12 +36,10 @@ require (
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.52.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
-	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/crypto v0.22.0 // indirect
 	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
