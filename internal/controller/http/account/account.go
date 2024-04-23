@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"github.com/MindScapeAnalytics/proxy/internal/entity"
@@ -32,7 +33,17 @@ func (controller AccountController) Login() fiber.Handler {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
 
 		var (
-			account entity.Account
+			account     entity.Account
+			tokenStruct struct {
+				Token            string      `json:"token"`
+				ExpiresIn        int         `json:"expires_in"`
+				RefreshExpiresIn int         `json:"refresh_expires_in"`
+				RefreshToken     interface{} `json:"refresh_token"`
+				TokenType        string      `json:"token_type"`
+				NotBeforePolicy  int         `json:"not-before-policy"`
+				SessionState     string      `json:"session_state"`
+				Scope            string      `json:"scope"`
+			}
 		)
 
 		err := utils.ReadRequest(ctx, &account)
@@ -44,7 +55,12 @@ func (controller AccountController) Login() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		return ctx.Status(fiber.StatusAccepted).JSON(token)
+
+		if err = json.Unmarshal(token, &tokenStruct); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+
+		return ctx.Status(fiber.StatusAccepted).JSON(tokenStruct)
 	}
 }
 
