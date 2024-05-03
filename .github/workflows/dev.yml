@@ -16,6 +16,7 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
+          ip a
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           werf converge
         env:
