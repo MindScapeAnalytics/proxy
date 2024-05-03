@@ -1,0 +1,6 @@
+configVersion: 1
+project: proxy
+---
+image: proxy
+dockerfile: ./Dockerfile
+context: ./app
