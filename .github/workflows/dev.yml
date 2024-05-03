@@ -20,6 +20,7 @@ jobs:
           sudo cp domain.crt /usr/local/share/ca-certificates/dev.docker.registry.msanalytics.ru.crt
           sudo update-ca-certificates
           sudo systemctl restart docker
+          rm domain.crt
 
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           export WERF_REPO="dev.docker.registry.msanalytics.ru:4443/myrepository"
