@@ -24,17 +24,18 @@ jobs:
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
           # Проверка статуса HTTP
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "https://dev.docker.registry.msanalytics.ru:4443/v2/myrepository/manifests/latest")
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "https://dev.docker.registry.msanalytics.ru:4443/v2/proxy/manifests/latest")
 
           if [ "$HTTP_STATUS" -eq 404 ]; then
             echo "Образ не найден. Выполняем сборку..."
-            docker build -t dev.docker.registry.msanalytics.ru:4443/myrepository:latest .
-            docker push dev.docker.registry.msanalytics.ru:4443/myrepository:latest
+            docker build -t dev.docker.registry.msanalytics.ru:4443/proxy:latest .
+            docker push dev.docker.registry.msanalytics.ru:4443/proxy:latest
           elif [ "$HTTP_STATUS" -eq 200 ]; then
             echo "Образ найден в Docker Registry. Сборка не требуется."
           elif [ "$HTTP_STATUS" -eq 401 ]; then
-            echo "Неавторизованный доступ. Проверьте учетные данные Docker."
-            exit 1
+            echo "Образ не найден. Выполняем сборку..."
+            docker build -t dev.docker.registry.msanalytics.ru:4443/proxy:latest .
+            docker push dev.docker.registry.msanalytics.ru:4443/proxy:latest
           elif [ "$HTTP_STATUS" -eq 500 ]; then
             echo "Внутренняя ошибка сервера. Возможно, проблема на стороне Docker Registry."
             exit 1
