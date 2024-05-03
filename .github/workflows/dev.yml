@@ -16,7 +16,7 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
-          source "$(werf ci-env github --as-file)"
+          export WERF_REPO="https://dev.docker.registry.msanalytics.ru:4443"
           werf converge
         env:
           WERF_ENV: dev

@@ -1,0 +1,23 @@
+name: release
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: werf/actions/install@v2
+
+      - run: |
+          source "$(werf ci-env github --as-file)"
+          werf converge
+        env:
+          WERF_ENV: release
+          WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
