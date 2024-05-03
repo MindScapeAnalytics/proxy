@@ -16,8 +16,9 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
-          export WERF_REPO="https://dev.docker.registry.msanalytics.ru:4443"
+          docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           werf converge
         env:
+          WERF_REPO: dev.docker.registry.msanalytics.ru:4443
           WERF_ENV: dev
           WERF_KUBECONFIG_BASE64: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
