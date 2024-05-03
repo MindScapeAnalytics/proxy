@@ -3,4 +3,3 @@ project: proxy
 ---
 image: proxy
 dockerfile: ./Dockerfile
-context: ./app
