@@ -16,7 +16,22 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
+          # Создаем файл сертификата из секрета
+          echo "${{ secrets.DOMAIN_DOCKER_REGISTER_CRT }}" > domain.crt
+      
+          # Копируем сертификат в список доверенных CA
+          sudo cp domain.crt /usr/local/share/ca-certificates/dev.docker.registry.msanalytics.ru.crt
+      
+          # Обновляем список доверенных CA
+          sudo update-ca-certificates
+      
+          # Перезапускаем Docker для применения изменений
+          sudo systemctl restart docker
+      
+          # Логин в Docker Registry
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+          # Выполнение команды werf converge
           werf converge
         env:
           WERF_REPO: dev.docker.registry.msanalytics.ru:4443
