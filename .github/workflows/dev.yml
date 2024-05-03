@@ -23,20 +23,24 @@ jobs:
 
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-          # Проверка наличия образа в Docker Registry
+          # Проверка статуса HTTP
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "https://dev.docker.registry.msanalytics.ru:4443/v2/myrepository/manifests/latest")
 
-          # Если образ не найден, выполняем сборку
           if [ "$HTTP_STATUS" -eq 404 ]; then
             echo "Образ не найден. Выполняем сборку..."
-            
-            # Сборка и отправка Docker-образа
             docker build -t dev.docker.registry.msanalytics.ru:4443/myrepository:latest .
             docker push dev.docker.registry.msanalytics.ru:4443/myrepository:latest
-            
-            echo "Сборка и отправка образа завершены."
-          else
+          elif [ "$HTTP_STATUS" -eq 200 ]; then
             echo "Образ найден в Docker Registry. Сборка не требуется."
+          elif [ "$HTTP_STATUS" -eq 401 ]; then
+            echo "Неавторизованный доступ. Проверьте учетные данные Docker."
+            exit 1
+          elif [ "$HTTP_STATUS" -eq 500 ]; then
+            echo "Внутренняя ошибка сервера. Возможно, проблема на стороне Docker Registry."
+            exit 1
+          else
+            echo "Непредвиденный статус HTTP: $HTTP_STATUS"
+            exit 1
           fi
 
           werf converge
