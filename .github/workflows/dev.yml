@@ -16,8 +16,6 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
-          chmod +x fix_docker_insecure_registry.sh
-          ./fix_docker_insecure_registry.sh
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           werf converge
         env:
