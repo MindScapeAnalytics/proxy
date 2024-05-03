@@ -16,22 +16,29 @@ jobs:
       - uses: werf/actions/install@v2
 
       - run: |
-          # Создаем файл сертификата из секрета
           echo "${{ secrets.DOMAIN_DOCKER_REGISTER_CRT }}" > domain.crt
-      
-          # Копируем сертификат в список доверенных CA
           sudo cp domain.crt /usr/local/share/ca-certificates/dev.docker.registry.msanalytics.ru.crt
-      
-          # Обновляем список доверенных CA
           sudo update-ca-certificates
-      
-          # Перезапускаем Docker для применения изменений
           sudo systemctl restart docker
-      
-          # Логин в Docker Registry
+
           docker login dev.docker.registry.msanalytics.ru:4443 -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
-          # Выполнение команды werf converge
+          # Проверка наличия образа в Docker Registry
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X GET "https://dev.docker.registry.msanalytics.ru:4443/v2/myrepository/manifests/latest")
+
+          # Если образ не найден, выполняем сборку
+          if [ "$HTTP_STATUS" -eq 404 ]; then
+            echo "Образ не найден. Выполняем сборку..."
+            
+            # Сборка и отправка Docker-образа
+            docker build -t dev.docker.registry.msanalytics.ru:4443/myrepository:latest .
+            docker push dev.docker.registry.msanalytics.ru:4443/myrepository:latest
+            
+            echo "Сборка и отправка образа завершены."
+          else
+            echo "Образ найден в Docker Registry. Сборка не требуется."
+          fi
+
           werf converge
         env:
           WERF_REPO: dev.docker.registry.msanalytics.ru:4443
