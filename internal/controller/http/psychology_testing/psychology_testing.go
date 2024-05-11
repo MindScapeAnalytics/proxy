@@ -32,7 +32,8 @@ func (controller PsychologyTestingController) SendTestingData() fiber.Handler {
 
 		var (
 			answers struct {
-				Answers []bool `json:"answers"`
+				Answers   []bool `json:"answers"`
+				AccountId string `json:"accountId"`
 			}
 		)
 
@@ -41,7 +42,7 @@ func (controller PsychologyTestingController) SendTestingData() fiber.Handler {
 			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
-		if err := controller.psychologyTestingInteractor.SendTestingData(ctx.Context(), answers.Answers); err != nil {
+		if err := controller.psychologyTestingInteractor.SendTestingData(ctx.Context(), answers.Answers, answers.AccountId); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
