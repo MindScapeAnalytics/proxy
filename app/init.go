@@ -12,7 +12,11 @@ import (
 	psychologytesting "github.com/MindScapeAnalytics/proxy/internal/adapters/psychology_testing"
 	visualrepresentation "github.com/MindScapeAnalytics/proxy/internal/adapters/visual_representation"
 	accountCtrl "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
+	psychologyTestingIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/psychology_testing"
+	visualRepresentationIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/visual_representation"
 	accountIntr "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
+	psychologytestingRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/psychology_testing"
+	visualrepresentationRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/visual_representation"
 	"github.com/MindScapeAnalytics/proxy/internal/middleware"
 	"github.com/MindScapeAnalytics/proxy/pkg/logger"
 	"github.com/MindScapeAnalytics/proxy/pkg/transport/http"
@@ -125,10 +129,18 @@ func (app *App) initInteractors(ctx context.Context) (err error) {
 
 	interactors := &Interactors{}
 
-	// инициализируем user interactor
 	if interactors.AccountInteractor, err = accountIntr.NewAccountInteractor(ctx, accountIntr.AccountIntrOpts{
-		// прокидываем настройки
 		AccountRepository: app.Adapters.AccountRepository,
+	}); err != nil {
+		return err
+	}
+	if interactors.PsychologyTestingInteractor, err = psychologytestingRepo.NewPsychologyTestingInteractor(ctx, psychologytestingRepo.PsychologyTestingInteractorOpts{
+		PsychologyTestingRepository: app.Adapters.PsychologyTestingRepo,
+	}); err != nil {
+		return err
+	}
+	if interactors.VisualRepresentationInteractor, err = visualrepresentationRepo.NewVisualRepresentationInteractor(ctx, visualrepresentationRepo.VisualRepresentationInteractorOpts{
+		VisualRepresentationRepository: app.Adapters.VisualRepresentationRepo,
 	}); err != nil {
 		return err
 	}
@@ -155,13 +167,29 @@ func (app *App) initControllers(ctx context.Context, logger logger.LoggerUC) (er
 	}); err != nil {
 		return err
 	}
+	if controllers.HTTP.VisualRepresentationController, err = visualRepresentationIntr.NewVisualRepresentationController(ctx, visualRepresentationIntr.VisualRepresentationControllerOpts{
+		VisualRepresentationInteractor: app.Interactors.VisualRepresentationInteractor,
+		Logger:                         logger,
+	}); err != nil {
+		return err
+	}
+
+	if controllers.HTTP.PsychologyTestingController, err = psychologyTestingIntr.NewPsychologyTestingController(ctx, psychologyTestingIntr.PsychologyTestingCtrlOpts{
+		PsychologyTestingInteractor: app.Interactors.PsychologyTestingInteractor,
+		Logger:                      logger,
+	}); err != nil {
+		return err
+	}
 
 	app.Controllers = controllers
 
-	authenticationService := app.Fiber.Group("/authenticationService/v1")
-	accountRouter := authenticationService.Group("/account")
+	api := app.Fiber.Group("/api/v1")
+	accountRouter := api.Group("/account")
+	testing := api.Group("/testing")
 
 	accountCtrl.AccountRoutesGroup(app.Middleware.Middleware, accountRouter, controllers.HTTP.AccountController)
+	visualRepresentationIntr.VisualRepresentationGroup(app.Middleware.Middleware, testing, controllers.HTTP.VisualRepresentationController)
+	psychologyTestingIntr.PsychologyTestingGroup(app.Middleware.Middleware, testing, controllers.HTTP.PsychologyTestingController)
 
 	return nil
 }

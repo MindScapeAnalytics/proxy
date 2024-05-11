@@ -6,5 +6,5 @@ import (
 )
 
 func PsychologyTestingGroup(mw middleware.MDWManager, accountRout fiber.Router, h PsychologyTestingController) {
-	accountRout.Post("/answers", mw.NonAuthed(), h.SendTestingData())
+	accountRout.Post("/answers", mw.APIMiddleware(), h.SendTestingData())
 }

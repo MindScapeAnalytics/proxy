@@ -10,7 +10,7 @@ type PsychologyTestingInteractorOpts struct {
 	PsychologyTestingRepository PsychologyTestingRepository
 }
 
-func NewVisualRepresentationInteractor(ctx context.Context, opts PsychologyTestingInteractorOpts) (*PsychologyTestingInteractor, error) {
+func NewPsychologyTestingInteractor(ctx context.Context, opts PsychologyTestingInteractorOpts) (*PsychologyTestingInteractor, error) {
 	return &PsychologyTestingInteractor{
 		psychologyTestingRepository: opts.PsychologyTestingRepository,
 	}, nil

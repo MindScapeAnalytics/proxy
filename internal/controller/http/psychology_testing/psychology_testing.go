@@ -19,7 +19,7 @@ type PsychologyTestingCtrlOpts struct {
 	Logger                      logger.LoggerUC
 }
 
-func NewAccountController(ctx context.Context, opts PsychologyTestingCtrlOpts) (PsychologyTestingController, error) {
+func NewPsychologyTestingController(ctx context.Context, opts PsychologyTestingCtrlOpts) (PsychologyTestingController, error) {
 	return PsychologyTestingController{
 		psychologyTestingInteractor: opts.PsychologyTestingInteractor,
 		logger:                      opts.Logger,

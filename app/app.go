@@ -5,6 +5,8 @@ import (
 
 	"github.com/MindScapeAnalytics/proxy/config"
 	accountIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
+	psychologyTestingIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/psychology_testing"
+	visualRepresentationIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/visual_representation"
 	accountRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
 	psychologyTestingRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/psychology_testing"
 	visualRepresentationRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/visual_representation"
@@ -41,13 +43,17 @@ type Adapters struct {
 
 // Interactors ...
 type Interactors struct {
-	AccountInteractor accountIntr.AccountInteractor
+	AccountInteractor              accountIntr.AccountInteractor
+	PsychologyTestingInteractor    psychologyTestingIntr.PsychologyTestingInteractor
+	VisualRepresentationInteractor visualRepresentationIntr.VisualRepresentationInteractor
 }
 
 // Controllers ...
 type Controllers struct {
 	HTTP struct {
-		AccountController accountIntr.AccountController
+		AccountController              accountIntr.AccountController
+		PsychologyTestingController    psychologyTestingIntr.PsychologyTestingController
+		VisualRepresentationController visualRepresentationIntr.VisualRepresentationController
 	}
 }
 

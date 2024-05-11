@@ -13,12 +13,12 @@ type VisualRepresentationController struct {
 	logger                         logger.LoggerUC
 }
 
-type AccountCtrlOpts struct {
+type VisualRepresentationControllerOpts struct {
 	VisualRepresentationInteractor VisualRepresentationInteractor
 	Logger                         logger.LoggerUC
 }
 
-func NewAccountController(ctx context.Context, opts AccountCtrlOpts) (VisualRepresentationController, error) {
+func NewVisualRepresentationController(ctx context.Context, opts VisualRepresentationControllerOpts) (VisualRepresentationController, error) {
 	return VisualRepresentationController{
 		visualRepresentationInteractor: opts.VisualRepresentationInteractor,
 		logger:                         opts.Logger,

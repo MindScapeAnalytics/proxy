@@ -6,6 +6,6 @@ import (
 )
 
 func VisualRepresentationGroup(mw middleware.MDWManager, accountRout fiber.Router, h VisualRepresentationController) {
-	accountRout.Get("/assessment/account/:id", mw.NonAuthed(), h.GetTestingResultByAccountID())
-	accountRout.Get("/questions/:slug", mw.NonAuthed(), h.GetTestTemplateBySlug())
+	accountRout.Get("/assessment/account/:id", mw.APIMiddleware(), h.GetTestingResultByAccountID())
+	accountRout.Get("/questions/:slug", mw.APIMiddleware(), h.GetTestTemplateBySlug())
 }
