@@ -2,8 +2,10 @@ package visualrepresentation
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
+	"github.com/MindScapeAnalytics/proxy/internal/entity"
 	"github.com/MindScapeAnalytics/proxy/pkg/logger"
 	"github.com/gofiber/fiber/v2"
 )
@@ -42,13 +44,18 @@ func (controller VisualRepresentationController) GetTestingResultByAccountID() f
 func (controller VisualRepresentationController) GetTestTemplateBySlug() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
-
+		var (
+			test entity.TestTemplate
+		)
 		slug := ctx.Params("slug")
 
 		res, err := controller.visualRepresentationInteractor.GetTestTemplateBySlug(ctx.Context(), slug)
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		return ctx.Status(fiber.StatusAccepted).JSON(res)
+		if err := json.Unmarshal(res, &test); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+		return ctx.Status(fiber.StatusAccepted).JSON(test)
 	}
 }

@@ -5,5 +5,5 @@ import (
 )
 
 type PsychologyTestingInteractor interface {
-	SendTestingData(ctx context.Context, answers []bool) error
+	SendTestingData(ctx context.Context, answers []bool, accountId string) error
 }

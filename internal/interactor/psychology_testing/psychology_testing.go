@@ -16,8 +16,8 @@ func NewPsychologyTestingInteractor(ctx context.Context, opts PsychologyTestingI
 	}, nil
 }
 
-func (interactor PsychologyTestingInteractor) SendTestingData(ctx context.Context, answers []bool) error {
-	if err := interactor.psychologyTestingRepository.SendTestingData(ctx, answers); err != nil {
+func (interactor PsychologyTestingInteractor) SendTestingData(ctx context.Context, answers []bool, accountId string) error {
+	if err := interactor.psychologyTestingRepository.SendTestingData(ctx, answers, accountId); err != nil {
 		return err
 	}
 	return nil

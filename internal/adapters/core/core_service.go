@@ -16,8 +16,8 @@ func newPsychologyTestingService(ctx context.Context, opts PsychologyTestingRepo
 	}, nil
 }
 
-func (repository psychologyTestingRepository) SendTestingData(ctx context.Context, answers []bool) error {
-	if err := repository.psychologyTestingService.SendTestingData(ctx, answers); err != nil {
+func (repository psychologyTestingRepository) SendTestingData(ctx context.Context, answers []bool, accountId string) error {
+	if err := repository.psychologyTestingService.SendTestingData(ctx, answers, accountId); err != nil {
 		return err
 	}
 	return nil
