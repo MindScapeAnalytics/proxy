@@ -30,14 +30,19 @@ func NewVisualRepresentationController(ctx context.Context, opts VisualRepresent
 func (controller VisualRepresentationController) GetTestingResultByAccountID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
-
+		var (
+			test entity.TestRawResult
+		)
 		id := ctx.Params("id")
 
 		res, err := controller.visualRepresentationInteractor.GetTestingResultByAccountID(ctx.Context(), id)
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		return ctx.Status(fiber.StatusAccepted).JSON(res)
+		if err := json.Unmarshal(res, &test); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+		return ctx.Status(fiber.StatusAccepted).JSON(test)
 	}
 }
 
