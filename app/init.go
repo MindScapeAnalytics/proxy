@@ -4,9 +4,13 @@ import (
 	"context"
 	"log"
 
-	api "github.com/MindScapeAnalytics/grpc-api/authentication/client"
+	authenticationService "github.com/MindScapeAnalytics/grpc-api/authentication/client"
+	psychologyTestingService "github.com/MindScapeAnalytics/grpc-api/psychology_testing/client"
+	visualRepresentationService "github.com/MindScapeAnalytics/grpc-api/visual_representation/client"
 	"github.com/MindScapeAnalytics/proxy/config"
 	accountRepo "github.com/MindScapeAnalytics/proxy/internal/adapters/account"
+	psychologytesting "github.com/MindScapeAnalytics/proxy/internal/adapters/psychology_testing"
+	visualrepresentation "github.com/MindScapeAnalytics/proxy/internal/adapters/visual_representation"
 	accountCtrl "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
 	accountIntr "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
 	"github.com/MindScapeAnalytics/proxy/internal/middleware"
@@ -30,7 +34,17 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 		log.Fatalf("%s", err.Error())
 	}
 
-	authenticationService, err := api.NewAuthenticationService(ctx, cfg.AuthenticationService.IP, cfg.AuthenticationService.Port)
+	authenticationService, err := authenticationService.NewAuthenticationService(ctx, cfg.AuthenticationService.IP, cfg.AuthenticationService.Port)
+	if err != nil {
+		log.Fatalf("%s", err.Error())
+	}
+
+	visualRepresentationService, err := visualRepresentationService.NewVisualRepresentationService(ctx, cfg.VisualRepresentationService.IP, cfg.VisualRepresentationService.Port)
+	if err != nil {
+		log.Fatalf("%s", err.Error())
+	}
+
+	psychologyTestingService, err := psychologyTestingService.NewCoreService(ctx, cfg.PsychologyTestingService.IP, cfg.PsychologyTestingService.Port)
 	if err != nil {
 		log.Fatalf("%s", err.Error())
 	}
@@ -43,7 +57,13 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 		HTTPClient: &httpClient,
 	}
 
-	err = app.initAdapters(ctx, cfg, authenticationService)
+	err = app.initAdapters(
+		ctx,
+		cfg,
+		authenticationService,
+		visualRepresentationService,
+		psychologyTestingService,
+	)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +84,13 @@ func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
 	return app, nil
 }
 
-func (app *App) initAdapters(ctx context.Context, cfg *config.Config, authenticationService api.AuthenticationService) (err error) {
+func (app *App) initAdapters(
+	ctx context.Context,
+	cfg *config.Config,
+	authenticationService authenticationService.AuthenticationService,
+	visualRepresentationService visualRepresentationService.VisualRepresentationService,
+	psychologyTestingService psychologyTestingService.PsychologyTestingService,
+) (err error) {
 
 	adapters := &Adapters{}
 
@@ -72,6 +98,20 @@ func (app *App) initAdapters(ctx context.Context, cfg *config.Config, authentica
 	if adapters.AccountRepository, err = accountRepo.NewAccountRepository(ctx, accountRepo.AccountRepOpts{
 		AuthenticationService: authenticationService,
 		Type:                  "authenticationService",
+	}); err != nil {
+		return err
+	}
+
+	if adapters.VisualRepresentationRepo, err = visualrepresentation.NewVisualRepresentation(ctx, visualrepresentation.VisualRepresentationRepOpts{
+		VisualRepresentationService: visualRepresentationService,
+		Type:                        "visualRepresentationService",
+	}); err != nil {
+		return err
+	}
+
+	if adapters.PsychologyTestingRepo, err = psychologytesting.NewPsychologyTestingRepository(ctx, psychologytesting.PsychologyTestingRepositoryOpts{
+		PsychologyTestingService: psychologyTestingService,
+		Type:                     "psychologyTestingService",
 	}); err != nil {
 		return err
 	}
@@ -98,7 +138,7 @@ func (app *App) initInteractors(ctx context.Context) (err error) {
 	return nil
 }
 
-func (app *App) initMiddleware(ctx context.Context, cfg *config.Config, logger logger.Logger, authenticationService api.AuthenticationService) (err error) {
+func (app *App) initMiddleware(ctx context.Context, cfg *config.Config, logger logger.Logger, authenticationService authenticationService.AuthenticationService) (err error) {
 	app.Middleware = &Middleware{}
 	app.Middleware.Middleware = middleware.NewMDWManager(cfg, logger, authenticationService)
 	return nil
@@ -118,8 +158,8 @@ func (app *App) initControllers(ctx context.Context, logger logger.LoggerUC) (er
 
 	app.Controllers = controllers
 
-	api := app.Fiber.Group("/api/v1")
-	accountRouter := api.Group("/account")
+	authenticationService := app.Fiber.Group("/authenticationService/v1")
+	accountRouter := authenticationService.Group("/account")
 
 	accountCtrl.AccountRoutesGroup(app.Middleware.Middleware, accountRouter, controllers.HTTP.AccountController)
 

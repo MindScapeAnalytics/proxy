@@ -1,5 +1,2 @@
 config/config.yml
 /.vscode
-/.helm
-domain.crt
-/yold

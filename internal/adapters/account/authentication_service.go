@@ -12,7 +12,6 @@ type authenticationServiceRepository struct {
 }
 
 func newAuthenticationRepository(ctx context.Context, opts AccountRepOpts) (*authenticationServiceRepository, error) {
-
 	return &authenticationServiceRepository{
 		authenticationService: opts.AuthenticationService,
 	}, nil

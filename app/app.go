@@ -6,6 +6,9 @@ import (
 	"github.com/MindScapeAnalytics/proxy/config"
 	accountIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
 	accountRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
+	psychologyTestingRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/psychology_testing"
+	visualRepresentationRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/visual_representation"
+
 	"github.com/MindScapeAnalytics/proxy/internal/middleware"
 	"github.com/MindScapeAnalytics/proxy/pkg/transport/http"
 	"github.com/gofiber/fiber/v2"
@@ -31,7 +34,9 @@ type Drivers struct {
 
 // Adapters ...
 type Adapters struct {
-	AccountRepository accountRepo.AccountRepository
+	AccountRepository        accountRepo.AccountRepository
+	VisualRepresentationRepo visualRepresentationRepo.VisualRepresentationRepository
+	PsychologyTestingRepo    psychologyTestingRepo.PsychologyTestingRepository
 }
 
 // Interactors ...
