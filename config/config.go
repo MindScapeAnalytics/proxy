@@ -6,9 +6,11 @@ import (
 )
 
 type Config struct {
-	Server                Server
-	Logger                Logger
-	AuthenticationService AuthenticationService
+	Server                      Server
+	Logger                      Logger
+	AuthenticationService       AuthenticationService
+	VisualRepresentationService VisualRepresentationService
+	PsychologyTestingService    PsychologyTestingService
 }
 
 type Server struct {
@@ -20,6 +22,16 @@ type Server struct {
 }
 
 type AuthenticationService struct {
+	IP   string `validate:"required"`
+	Port string `validate:"required"`
+}
+
+type VisualRepresentationService struct {
+	IP   string `validate:"required"`
+	Port string `validate:"required"`
+}
+
+type PsychologyTestingService struct {
 	IP   string `validate:"required"`
 	Port string `validate:"required"`
 }
