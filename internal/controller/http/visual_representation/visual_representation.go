@@ -33,7 +33,7 @@ func (controller VisualRepresentationController) GetTestingResultByAccountID() f
 		var (
 			test entity.TestRawResult
 		)
-		id := ctx.Params("id")
+		id := ctx.Locals("accountId").(string)
 
 		res, err := controller.visualRepresentationInteractor.GetTestingResultByAccountID(ctx.Context(), id)
 		if err != nil {

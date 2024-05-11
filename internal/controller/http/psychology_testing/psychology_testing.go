@@ -42,6 +42,8 @@ func (controller PsychologyTestingController) SendTestingData() fiber.Handler {
 			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
 
+		answers.AccountId = ctx.Locals("accountId").(string)
+
 		if err := controller.psychologyTestingInteractor.SendTestingData(ctx.Context(), answers.Answers, answers.AccountId); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}

@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 
-	authenticationService "github.com/MindScapeAnalytics/grpc-api/authentication/api/proto/v1"
+	authenticationService "github.com/MindScapeAnalytics/grpc-api/authentication/api/v1"
 )
 
 // UserHTTPController ...
