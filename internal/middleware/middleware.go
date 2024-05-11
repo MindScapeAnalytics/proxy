@@ -38,14 +38,16 @@ func (mw *mdwManager) APIMiddleware() fiber.Handler {
 
 		tokenSplit := strings.Split(tokenString, " ")
 		if len(tokenSplit) == 2 {
-			ok, err := mw.authenticationService.ValidateToken(c.Context(), []byte(tokenSplit[1]))
+			accountId, ok, err := mw.authenticationService.ValidateToken(c.Context(), []byte(tokenSplit[1]))
 			if err != nil {
 				return c.SendStatus(fiber.StatusUnauthorized)
 			}
 			if ok {
+				c.Locals("accountId", accountId)
 				return c.Next()
 			}
 		}
+
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 }
