@@ -47,13 +47,15 @@ func (controller VisualRepresentationController) GetTestingResultByAccountID() f
 		if err := json.Unmarshal(res, &test); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		controller.coreInteractor.AddCognitiveSpecificationToUser(
+		if err := controller.coreInteractor.AddCognitiveSpecificationToUser(
 			ctx.Context(),
 			api_entity.User{
 				Id: id,
 			},
 			api_entity.CognitiveSpecification{},
-		)
+		); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
 		return ctx.Status(fiber.StatusAccepted).JSON(test)
 	}
 }
