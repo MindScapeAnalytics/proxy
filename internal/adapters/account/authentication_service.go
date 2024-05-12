@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	api "github.com/MindScapeAnalytics/grpc-api/authentication/client"
+	"github.com/MindScapeAnalytics/proxy/internal/entity"
 )
 
 type authenticationServiceRepository struct {
@@ -25,10 +26,13 @@ func (repository authenticationServiceRepository) GetToken(ctx context.Context, 
 	return token, nil
 }
 
-func (repository authenticationServiceRepository) Registry(ctx context.Context, login, email, password string) (bool, error) {
-	_, err := repository.authenticationService.Register(ctx, login, password, email)
+func (repository authenticationServiceRepository) Registry(ctx context.Context, login, email, password string) (entity.Account, error) {
+	res, err := repository.authenticationService.Register(ctx, login, password, email)
 	if err != nil {
-		return false, fmt.Errorf("authenticationServiceRepository.GetToken(): error: %s", err.Error())
+		return entity.Account{}, fmt.Errorf("authenticationServiceRepository.GetToken(): error: %s", err.Error())
 	}
-	return true, nil
+	return entity.Account{
+		Token: res.Token,
+		Id:    res.Id,
+	}, nil
 }

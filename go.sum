@@ -6,8 +6,14 @@ github.com/MindScapeAnalytics/grpc-api/authentication v1.0.14 h1:aokTU9TWGE47ZqB
 github.com/MindScapeAnalytics/grpc-api/authentication v1.0.14/go.mod h1:Z369yGd/BF3Y72msHr/KUhJKUmfct3N0W6g1RWrgnNo=
 github.com/MindScapeAnalytics/grpc-api/authentication v1.0.15 h1:mFP7JJ7XEL+wNswE0gtkpXSRsyXf3FWduoK4rVLVabg=
 github.com/MindScapeAnalytics/grpc-api/authentication v1.0.15/go.mod h1:Z369yGd/BF3Y72msHr/KUhJKUmfct3N0W6g1RWrgnNo=
+github.com/MindScapeAnalytics/grpc-api/authentication v1.0.17 h1:HoVH3tASFDT2Hz3A4ayeo3VzV6CtgSC1lKGK/pjD2Yo=
+github.com/MindScapeAnalytics/grpc-api/authentication v1.0.17/go.mod h1:Z369yGd/BF3Y72msHr/KUhJKUmfct3N0W6g1RWrgnNo=
+github.com/MindScapeAnalytics/grpc-api/authentication v1.0.18 h1:Ci68YCiob9OLcss73aJ0kNOPvt+Icb27lj3avMmOOrM=
+github.com/MindScapeAnalytics/grpc-api/authentication v1.0.18/go.mod h1:Z369yGd/BF3Y72msHr/KUhJKUmfct3N0W6g1RWrgnNo=
 github.com/MindScapeAnalytics/grpc-api/core v1.1.0 h1:dNIXgLaDcVJLwoqUjVfcCFEa9z3tWRZ7QCYAkHAhmBA=
 github.com/MindScapeAnalytics/grpc-api/core v1.1.0/go.mod h1:YYkrn9PAVGv4YR/XOnBIj+Qnc6L0bzg98KXRpBi0gm4=
+github.com/MindScapeAnalytics/grpc-api/core v1.1.2 h1:zmydpOciKNgZ+JfrSTaqmllT645d1UoP7M3hjDF21d8=
+github.com/MindScapeAnalytics/grpc-api/core v1.1.2/go.mod h1:YYkrn9PAVGv4YR/XOnBIj+Qnc6L0bzg98KXRpBi0gm4=
 github.com/MindScapeAnalytics/grpc-api/psychology_testing v1.0.7 h1:rXlZY856Sl4wI2xnXnj+NXQJJXE3bYR4Wb+D7pC1yPQ=
 github.com/MindScapeAnalytics/grpc-api/psychology_testing v1.0.7/go.mod h1:o01HSeWU8UM9vuYHKV6RXYL5ZCnpx38vDGr/xxT+1CA=
 github.com/MindScapeAnalytics/grpc-api/psychology_testing v1.0.13 h1:LuhI4s3cKndtS2EGvGRw9gfm3UnWgdpeLxVc9qADlI8=

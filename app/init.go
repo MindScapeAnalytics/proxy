@@ -148,6 +148,7 @@ func (app *App) initInteractors(ctx context.Context) (err error) {
 	interactors := &Interactors{}
 
 	if interactors.AccountInteractor, err = accountIntr.NewAccountInteractor(ctx, accountIntr.AccountIntrOpts{
+		CoreRepository:    app.Adapters.CoreRepository,
 		AccountRepository: app.Adapters.AccountRepository,
 	}); err != nil {
 		return err
@@ -163,7 +164,8 @@ func (app *App) initInteractors(ctx context.Context) (err error) {
 		return err
 	}
 	if interactors.CoreInteractor, err = coreRepo.NewCoreInteractor(ctx, coreRepo.CoreInteractorOpts{
-		CoreRepository: app.Adapters.CoreRepository,
+		VisualRepresentation: app.Adapters.VisualRepresentationRepo,
+		CoreRepository:       app.Adapters.CoreRepository,
 	}); err != nil {
 		return err
 	}
@@ -191,6 +193,7 @@ func (app *App) initControllers(ctx context.Context, logger logger.LoggerUC) (er
 		return err
 	}
 	if controllers.HTTP.VisualRepresentationController, err = visualRepresentationIntr.NewVisualRepresentationController(ctx, visualRepresentationIntr.VisualRepresentationControllerOpts{
+		CoreInteractor:                 app.Interactors.CoreInteractor,
 		VisualRepresentationInteractor: app.Interactors.VisualRepresentationInteractor,
 		Logger:                         logger,
 	}); err != nil {

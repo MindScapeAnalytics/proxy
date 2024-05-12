@@ -273,38 +273,12 @@ func (controller CoreController) AddCognitiveSpecificationToUser() fiber.Handler
 	return func(ctx *fiber.Ctx) error {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
 
-		var (
-			user struct {
-				EventActionType []string
-				Accentuations   []string
-			}
-			cs struct {
-				Accentuations []string
-			}
-		)
-
-		err := utils.ReadRequest(ctx, &user)
-		if err != nil {
-			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
-		}
-		arr := make([]api_entity.Accentuation, 0)
-		for _, v := range cs.Accentuations {
-			arr = append(arr, api_entity.Accentuation{
-				Type: v,
-			})
-		}
-
-		err = controller.coreInteractor.AddCognitiveSpecificationToUser(
+		err := controller.coreInteractor.AddCognitiveSpecificationToUser(
 			ctx.Context(),
 			api_entity.User{
 				Id: ctx.Locals("accountId").(string),
-				EventActions: api_entity.EventActions{
-					Type: user.EventActionType,
-				},
 			},
-			api_entity.CognitiveSpecification{
-				Accentuations: arr,
-			},
+			api_entity.CognitiveSpecification{},
 		)
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
