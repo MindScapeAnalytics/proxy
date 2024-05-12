@@ -81,7 +81,7 @@ func (controller AccountController) Registry() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		if !ok {
+		if ok.Id == "" {
 			return ctx.Status(fiber.StatusBadRequest).JSON("something whet wrong")
 		}
 		return ctx.SendStatus(fiber.StatusAccepted)
