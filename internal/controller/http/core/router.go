@@ -11,8 +11,10 @@ func CoreRoutesGroup(mw middleware.MDWManager, accountRout fiber.Router, h CoreC
 	// accountRout.Post("/token", mw.APIMiddleware(), h.AddFriend())
 	// accountRout.Post("/", mw.APIMiddleware(), h.RemoveFriend())
 	// accountRout.Post("/token", mw.APIMiddleware(), h.AddEventToUser())
-	accountRout.Post("/add_cognitive", mw.APIMiddleware(), h.AddCognitiveSpecificationToUser())
+	// accountRout.Post("/add_cognitive", mw.APIMiddleware(), h.AddCognitiveSpecificationToUser())
 	// accountRout.Post("/token", mw.APIMiddleware(), h.UpdateCognitiveSpecificationUser())
 	// accountRout.Post("/", mw.APIMiddleware(), h.UpdateAdditionalUserEventInfo())
 	accountRout.Get("/events", mw.APIMiddleware(), h.GetUserEventList()) //add limit
+	accountRout.Post("/event", mw.APIMiddleware(), h.AddEventInfo())
+	accountRout.Get("/event/:id", mw.APIMiddleware(), h.GetEventInfo())
 }
