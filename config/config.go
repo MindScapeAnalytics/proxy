@@ -11,6 +11,7 @@ type Config struct {
 	AuthenticationService       AuthenticationService
 	VisualRepresentationService VisualRepresentationService
 	PsychologyTestingService    PsychologyTestingService
+	CoreService                 CoreService
 }
 
 type Server struct {
@@ -22,6 +23,11 @@ type Server struct {
 }
 
 type AuthenticationService struct {
+	IP   string `validate:"required"`
+	Port string `validate:"required"`
+}
+
+type CoreService struct {
 	IP   string `validate:"required"`
 	Port string `validate:"required"`
 }

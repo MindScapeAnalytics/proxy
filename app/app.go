@@ -5,9 +5,11 @@ import (
 
 	"github.com/MindScapeAnalytics/proxy/config"
 	accountIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/account"
+	coreIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/core"
 	psychologyTestingIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/psychology_testing"
 	visualRepresentationIntr "github.com/MindScapeAnalytics/proxy/internal/controller/http/visual_representation"
 	accountRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/account"
+	coreRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/core"
 	psychologyTestingRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/psychology_testing"
 	visualRepresentationRepo "github.com/MindScapeAnalytics/proxy/internal/interactor/visual_representation"
 
@@ -39,6 +41,7 @@ type Adapters struct {
 	AccountRepository        accountRepo.AccountRepository
 	VisualRepresentationRepo visualRepresentationRepo.VisualRepresentationRepository
 	PsychologyTestingRepo    psychologyTestingRepo.PsychologyTestingRepository
+	CoreRepository           coreRepo.CoreRepository
 }
 
 // Interactors ...
@@ -46,6 +49,7 @@ type Interactors struct {
 	AccountInteractor              accountIntr.AccountInteractor
 	PsychologyTestingInteractor    psychologyTestingIntr.PsychologyTestingInteractor
 	VisualRepresentationInteractor visualRepresentationIntr.VisualRepresentationInteractor
+	CoreInteractor                 coreIntr.CoreInteractor
 }
 
 // Controllers ...
@@ -54,6 +58,7 @@ type Controllers struct {
 		AccountController              accountIntr.AccountController
 		PsychologyTestingController    psychologyTestingIntr.PsychologyTestingController
 		VisualRepresentationController visualRepresentationIntr.VisualRepresentationController
+		CoreController                 coreIntr.CoreController
 	}
 }
 
