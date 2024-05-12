@@ -396,3 +396,58 @@ func (controller CoreController) GetUserEventList() fiber.Handler {
 		return ctx.Status(fiber.StatusAccepted).JSON(res)
 	}
 }
+
+func (controller CoreController) GetEventInfo() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		defer controller.logger.CreateAPILog(ctx, time.Now())
+
+		id := ctx.Params("id")
+
+		res, err := controller.coreInteractor.GetEventInfo(ctx.Context(), id)
+		if err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+		return ctx.Status(fiber.StatusAccepted).JSON(res)
+	}
+}
+
+func (controller CoreController) AddEventInfo() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		defer controller.logger.CreateAPILog(ctx, time.Now())
+
+		var (
+			event struct {
+				Id          string `json:"id"`
+				Name        string `json:"name"`
+				Description string `json:"description"`
+				Data        string `json:"data"`
+				UserId      string `json:"userId"`
+			}
+		)
+
+		err := utils.ReadRequest(ctx, &event)
+		if err != nil {
+			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+
+		userId := ctx.Locals("accountId").(string)
+
+		err = controller.coreInteractor.AddEventInfo(
+			ctx.Context(),
+			api_entity.Event{
+				Id:          event.Id,
+				Name:        event.Name,
+				Description: event.Description,
+				Data:        []byte(event.Data),
+				UserId:      event.UserId,
+			},
+			api_entity.User{
+				Id: userId,
+			},
+		)
+		if err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+		return ctx.SendStatus(fiber.StatusAccepted)
+	}
+}

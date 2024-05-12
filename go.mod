@@ -6,7 +6,7 @@ go 1.22.2
 
 require (
 	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.18
-	github.com/MindScapeAnalytics/grpc-api/core v1.1.2
+	github.com/MindScapeAnalytics/grpc-api/core v1.1.8
 	github.com/MindScapeAnalytics/grpc-api/psychology_testing v1.0.14
 	github.com/MindScapeAnalytics/grpc-api/visual_representation v1.0.12
 	github.com/go-playground/validator/v10 v10.20.0

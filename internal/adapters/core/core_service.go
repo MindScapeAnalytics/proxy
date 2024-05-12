@@ -81,10 +81,28 @@ func (repo coreRepository) UpdateAdditionalUserEventInfo(ctx context.Context, us
 	return nil
 }
 
-func (repo coreRepository) GetUserEventList(ctx context.Context, user entity.User) ([][]byte, error) {
+func (repo coreRepository) GetUserEventList(ctx context.Context, user entity.User) ([]entity.Event, error) {
 	res, err := repo.coreService.GetUserEventList(ctx, user)
 	if err != nil {
 		return nil, err
 	}
 	return res, nil
+}
+
+func (repo coreRepository) GetEventInfo(ctx context.Context, eventId string) (entity.Event, error) {
+	res, err := repo.coreService.GetEventInfo(ctx, entity.Event{
+		Id: eventId,
+	})
+	if err != nil {
+		return entity.Event{}, err
+	}
+	return res, nil
+}
+
+func (repo coreRepository) AddEventInfo(ctx context.Context, event entity.Event, user entity.User) error {
+	err := repo.coreService.AddEventInfo(ctx, event, user)
+	if err != nil {
+		return err
+	}
+	return nil
 }
