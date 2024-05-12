@@ -72,36 +72,16 @@ func (controller CoreController) AddEvent() fiber.Handler {
 			event struct {
 				Id string `json:"id"`
 			}
-			user struct {
-				EventActionType []string
-				Accentuations   []string
-			}
 		)
 
 		err := utils.ReadRequest(ctx, &event)
 		if err != nil {
 			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		err = utils.ReadRequest(ctx, &user)
-		if err != nil {
-			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
-		}
-		arr := make([]api_entity.Accentuation, 0)
-		for _, v := range user.Accentuations {
-			arr = append(arr, api_entity.Accentuation{
-				Type: v,
-			})
-		}
 		err = controller.coreInteractor.AddEvent(ctx.Context(), api_entity.Event{
 			Id: event.Id,
 		}, api_entity.User{
 			Id: ctx.Locals("accountId").(string),
-			EventActions: api_entity.EventActions{
-				Type: user.EventActionType,
-			},
-			CognitiveSpecification: api_entity.CognitiveSpecification{
-				Accentuations: arr,
-			},
 		})
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
@@ -433,31 +413,8 @@ func (controller CoreController) GetUserEventList() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
 
-		var (
-			user struct {
-				EventActionType []string
-				Accentuations   []string
-			}
-		)
-
-		err := utils.ReadRequest(ctx, &user)
-		if err != nil {
-			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
-		}
-		arr := make([]api_entity.Accentuation, 0)
-		for _, v := range user.Accentuations {
-			arr = append(arr, api_entity.Accentuation{
-				Type: v,
-			})
-		}
 		res, err := controller.coreInteractor.GetUserEventList(ctx.Context(), api_entity.User{
 			Id: ctx.Locals("accountId").(string),
-			EventActions: api_entity.EventActions{
-				Type: user.EventActionType,
-			},
-			CognitiveSpecification: api_entity.CognitiveSpecification{
-				Accentuations: arr,
-			},
 		})
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
