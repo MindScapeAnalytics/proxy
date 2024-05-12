@@ -4,23 +4,23 @@ import (
 	"context"
 	"errors"
 
-	api "github.com/MindScapeAnalytics/grpc-api/psychology_testing/client"
-	interactor "github.com/MindScapeAnalytics/proxy/internal/interactor/psychology_testing"
+	api "github.com/MindScapeAnalytics/grpc-api/core/client"
+	interactor "github.com/MindScapeAnalytics/proxy/internal/interactor/core"
 )
 
 const (
-	psychologyTestingService = "psychologyTestingService"
+	coreService = "coreService"
 )
 
-type PsychologyTestingRepositoryOpts struct {
-	Type                     string
-	PsychologyTestingService api.PsychologyTestingService
+type CoreRepositoryOpts struct {
+	Type        string
+	CoreService api.CoreService
 }
 
-func NewPsychologyTestingRepository(ctx context.Context, opts PsychologyTestingRepositoryOpts) (interactor.PsychologyTestingRepository, error) {
+func NewCoreRepository(ctx context.Context, opts CoreRepositoryOpts) (interactor.CoreRepository, error) {
 	switch opts.Type {
-	case psychologyTestingService:
-		return newPsychologyTestingService(ctx, opts)
+	case coreService:
+		return newCoreRepositoryService(ctx, opts)
 	default:
 		return nil, errors.New("неподдерживаемый тип репозитория")
 	}

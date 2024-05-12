@@ -16,6 +16,7 @@ require (
 )
 
 require (
+	github.com/MindScapeAnalytics/grpc-api/core v1.1.0 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
