@@ -393,6 +393,12 @@ func (controller CoreController) GetUserEventList() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
+		// arr := make([]entity.Event, 0)
+		// for _, v := range res {
+		// 	arr = append(arr, entity.Event{
+		// 		v.
+		// 	})
+		// }
 		return ctx.Status(fiber.StatusAccepted).JSON(res)
 	}
 }
