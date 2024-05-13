@@ -2,10 +2,12 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 	"strconv"
 	"time"
 
 	api_entity "github.com/MindScapeAnalytics/grpc-api/core/client/entity"
+	"github.com/MindScapeAnalytics/proxy/internal/entity"
 	"github.com/MindScapeAnalytics/proxy/pkg/logger"
 	"github.com/MindScapeAnalytics/proxy/pkg/utils"
 	"github.com/gofiber/fiber/v2"
@@ -81,12 +83,21 @@ func (controller CoreController) AddEvent() fiber.Handler {
 		if err != nil {
 			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
+
+		img := entity.Image{
+			Name: event.Data,
+		}
+
+		imgg, err := json.Marshal(&img)
+		if err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
 		err = controller.coreInteractor.AddEvent(
 			ctx.Context(),
 			api_entity.Event{
 				Name:        event.Name,
 				Description: event.Description,
-				Data:        []byte(event.Data),
+				Data:        imgg,
 				UserId:      ctx.Locals("accountId").(string),
 			}, api_entity.User{
 				Id: ctx.Locals("accountId").(string),
@@ -425,6 +436,11 @@ func (controller CoreController) GetEventInfo() fiber.Handler {
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
+		var img entity.Image
+		if err := json.Unmarshal([]byte(res.Data), &img); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
+		}
+		res.Data = []byte(img.Name)
 		return ctx.Status(fiber.StatusAccepted).JSON(res)
 	}
 }

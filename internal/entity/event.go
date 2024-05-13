@@ -7,3 +7,7 @@ type Event struct {
 	Data        []byte
 	UserId      string `db:"user_id"`
 }
+
+type Image struct {
+	Name string `json:"name"`
+}

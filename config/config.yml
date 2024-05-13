@@ -17,6 +17,6 @@ PsychologyTestingService:
   # IP: localhost
   Port: 6003
 CoreService:
-  IP: 178.253.43.123
-  # IP: localhost
+  # IP: 178.253.43.123
+  IP: localhost
   Port: 6004
