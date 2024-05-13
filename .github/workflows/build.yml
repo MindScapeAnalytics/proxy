@@ -32,4 +32,4 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
-          script: /root/other/deploy_from_dockerhub.sh
+          script: /srv/backend/proxy.sh

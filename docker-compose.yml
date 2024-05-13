@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   proxy:
-    image: kritinidzin/proxy
+    image: kritinidzin/proxy:latest
     ports:
       - "6000:6000"
     deploy:

@@ -1,0 +1,22 @@
+Server:
+  IP: 0.0.0.0
+  Port: 6000
+  SecretJWT: da66120516d311315f27334e5d42ab66
+  ShowUnknownErrorsInResponse: true
+  Instance: dev1_proxy
+AuthenticationService:
+  IP: 178.253.43.123
+  # IP: localhost
+  Port: 6001
+VisualRepresentationService:
+  IP: 178.253.43.123
+  # IP: localhost
+  Port: 6002
+PsychologyTestingService:
+  IP: 178.253.43.123
+  # IP: localhost
+  Port: 6003
+CoreService:
+  # IP: 178.253.43.123
+  IP: localhost
+  Port: 6004
