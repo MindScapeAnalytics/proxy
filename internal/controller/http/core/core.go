@@ -71,7 +71,9 @@ func (controller CoreController) AddEvent() fiber.Handler {
 
 		var (
 			event struct {
-				Id string `json:"id"`
+				Name        string `json:"name"`
+				Description string `json:"description"`
+				Data        string `json:"data"`
 			}
 		)
 
@@ -79,11 +81,16 @@ func (controller CoreController) AddEvent() fiber.Handler {
 		if err != nil {
 			ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		err = controller.coreInteractor.AddEvent(ctx.Context(), api_entity.Event{
-			Id: event.Id,
-		}, api_entity.User{
-			Id: ctx.Locals("accountId").(string),
-		})
+		err = controller.coreInteractor.AddEvent(
+			ctx.Context(),
+			api_entity.Event{
+				Name:        event.Name,
+				Description: event.Description,
+				Data:        []byte(event.Data),
+				UserId:      ctx.Locals("accountId").(string),
+			}, api_entity.User{
+				Id: ctx.Locals("accountId").(string),
+			})
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}

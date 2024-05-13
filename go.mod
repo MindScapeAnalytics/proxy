@@ -5,8 +5,8 @@ go 1.22.2
 // replace github.com/MindScapeAnalytics/grpc-api/authentication => /Users/kegazani/Projects/MSAnalytics/grpc-api/authentication
 
 require (
-	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.18
-	github.com/MindScapeAnalytics/grpc-api/core v1.1.9
+	github.com/MindScapeAnalytics/grpc-api/authentication v1.0.19
+	github.com/MindScapeAnalytics/grpc-api/core v1.1.10
 	github.com/MindScapeAnalytics/grpc-api/psychology_testing v1.0.14
 	github.com/MindScapeAnalytics/grpc-api/visual_representation v1.0.12
 	github.com/go-playground/validator/v10 v10.20.0
