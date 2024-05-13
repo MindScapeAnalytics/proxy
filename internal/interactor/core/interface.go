@@ -15,7 +15,7 @@ type CoreRepository interface {
 	AddCognitiveSpecificationToUser(ctx context.Context, user entity.User, cs entity.CognitiveSpecification) error
 	UpdateCognitiveSpecificationUser(ctx context.Context, user entity.User, cs entity.CognitiveSpecification) error
 	UpdateAdditionalUserEventInfo(ctx context.Context, user entity.User, event entity.Event) error
-	GetUserEventList(ctx context.Context, user entity.User) ([]entity.Event, error)
+	GetUserEventList(ctx context.Context, user entity.User, limit int) ([]entity.Event, error)
 	GetEventInfo(ctx context.Context, eventId string) (entity.Event, error)
 	AddEventInfo(ctx context.Context, event entity.Event, user entity.User) error
 }

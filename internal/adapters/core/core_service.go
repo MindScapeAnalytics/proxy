@@ -81,8 +81,8 @@ func (repo coreRepository) UpdateAdditionalUserEventInfo(ctx context.Context, us
 	return nil
 }
 
-func (repo coreRepository) GetUserEventList(ctx context.Context, user entity.User) ([]entity.Event, error) {
-	res, err := repo.coreService.GetUserEventList(ctx, user)
+func (repo coreRepository) GetUserEventList(ctx context.Context, user entity.User, limit int) ([]entity.Event, error) {
+	res, err := repo.coreService.GetUserEventList(ctx, user, limit)
 	if err != nil {
 		return nil, err
 	}

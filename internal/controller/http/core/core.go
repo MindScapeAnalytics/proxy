@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	api_entity "github.com/MindScapeAnalytics/grpc-api/core/client/entity"
@@ -386,10 +387,14 @@ func (controller CoreController) UpdateAdditionalUserEventInfo() fiber.Handler {
 func (controller CoreController) GetUserEventList() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		defer controller.logger.CreateAPILog(ctx, time.Now())
-
+		limit := ctx.Query("limit", "10")
+		limitInt, err := strconv.Atoi(limit)
+		if err != nil {
+			return ctx.Status(fiber.StatusBadRequest).SendString("Param must be an integer")
+		}
 		res, err := controller.coreInteractor.GetUserEventList(ctx.Context(), api_entity.User{
 			Id: ctx.Locals("accountId").(string),
-		})
+		}, limitInt)
 		if err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}

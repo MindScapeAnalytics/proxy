@@ -106,8 +106,8 @@ func (interactor CoreInteractor) UpdateAdditionalUserEventInfo(ctx context.Conte
 	return nil
 }
 
-func (interactor CoreInteractor) GetUserEventList(ctx context.Context, user api_entity.User) ([]api_entity.Event, error) {
-	res, err := interactor.coreRepository.GetUserEventList(ctx, user)
+func (interactor CoreInteractor) GetUserEventList(ctx context.Context, user api_entity.User, limit int) ([]api_entity.Event, error) {
+	res, err := interactor.coreRepository.GetUserEventList(ctx, user, limit)
 	if err != nil {
 		return nil, err
 	}
