@@ -15,6 +15,6 @@ func CoreRoutesGroup(mw middleware.MDWManager, accountRout fiber.Router, h CoreC
 	// accountRout.Post("/token", mw.APIMiddleware(), h.UpdateCognitiveSpecificationUser())
 	// accountRout.Post("/", mw.APIMiddleware(), h.UpdateAdditionalUserEventInfo())
 	accountRout.Get("/events", mw.APIMiddleware(), h.GetUserEventList()) //add limit
-	accountRout.Post("/event", mw.APIMiddleware(), h.AddEventInfo())
-	accountRout.Get("/event/:id", mw.APIMiddleware(), h.GetEventInfo())
+	accountRout.Post("/events", mw.APIMiddleware(), h.AddEventInfo())
+	accountRout.Get("/events/:id", mw.APIMiddleware(), h.GetEventInfo())
 }
