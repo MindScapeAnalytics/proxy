@@ -97,7 +97,7 @@ func (controller CoreController) AddEvent() fiber.Handler {
 			api_entity.Event{
 				Name:        event.Name,
 				Description: event.Description,
-				Data:        imgg,
+				Data:        string(imgg),
 				UserId:      ctx.Locals("accountId").(string),
 			}, api_entity.User{
 				Id: ctx.Locals("accountId").(string),
@@ -440,7 +440,7 @@ func (controller CoreController) GetEventInfo() fiber.Handler {
 		if err := json.Unmarshal([]byte(res.Data), &img); err != nil {
 			return ctx.Status(fiber.StatusBadRequest).JSON(err.Error())
 		}
-		res.Data = []byte(img.Name)
+		res.Data = img.Name
 		return ctx.Status(fiber.StatusAccepted).JSON(res)
 	}
 }
@@ -472,7 +472,7 @@ func (controller CoreController) AddEventInfo() fiber.Handler {
 				Id:          event.Id,
 				Name:        event.Name,
 				Description: event.Description,
-				Data:        []byte(event.Data),
+				Data:        event.Data,
 				UserId:      event.UserId,
 			},
 			api_entity.User{
