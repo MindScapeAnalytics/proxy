@@ -26,7 +26,7 @@ import (
 	"github.com/MindScapeAnalytics/proxy/pkg/transport/http"
 )
 
-func newApp(ctx context.Context, cfg *config.Config) (*App, error) {
+func NewApp(ctx context.Context, cfg *config.Config) (*App, error) {
 
 	app := &App{}
 

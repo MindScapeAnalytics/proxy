@@ -19,6 +19,7 @@ type Client struct {
 
 func NewClientHTTP(cfg *config.Config, logger logger.Logger) (Client, error) {
 	app := fiber.New()
+	app.Use(cors.New())
 	return Client{
 		app: app,
 		cfg: cfg,

@@ -63,7 +63,7 @@ type Controllers struct {
 }
 
 func Run(cfg *config.Config, ctx context.Context) error {
-	app, err := newApp(ctx, cfg)
+	app, err := NewApp(ctx, cfg)
 	if err != nil {
 		return err
 	}
